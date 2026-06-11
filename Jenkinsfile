@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Configure') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Aahil13/Word-counter']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Madhu-gt-hb/MyRepo.git']])
             }
         }
         stage('Building image') {
@@ -15,10 +15,10 @@ pipeline {
         
         stage('Pushing to ECR') {
             steps {
-                withAWS(credentials: 'AWS-CREDS', region: 'us-east-1') {
-                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 313382416572.dkr.ecr.us-east-1.amazonaws.com'
-                    sh 'docker tag word-counter:latest 313382416572.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest'
-                    sh 'docker push 313382416572.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest'
+                withAWS(credentials: 'AWS-CREDS', region: 'ap-south-2') {
+                    sh 'aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 578257747988.dkr.ecr.ap-south-2.amazonaws.com'
+                    sh 'docker tag word-counter:latest 578257747988.dkr.ecr.ap-south-2.amazonaws.com/word-counter:latest'
+                    sh 'docker push 578257747988.dkr.ecr.ap-south-2.amazonaws.com/word-counter:latest'
                 }
             }
         }
@@ -26,8 +26,8 @@ pipeline {
         stage('K8S Deploy') {
             steps {
                 script {
-                    withAWS(credentials: 'AWS-CREDS', region: 'us-east-1') {
-                        sh 'aws eks update-kubeconfig --name test-cluster --region us-east-1'
+                    withAWS(credentials: 'AWS-CREDS', region: 'ap-south-2') {
+                        sh 'aws eks update-kubeconfig --name k8-1 --region ap-south-2'
                         sh 'kubectl apply -f EKS-Deployment.yaml'
                     }
                 }
