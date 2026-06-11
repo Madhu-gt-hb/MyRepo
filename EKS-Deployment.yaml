@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: word-counter-container
-        image: 313382416572.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest
+        image: 578257747988.dkr.ecr.ap-south-2.amazonaws.com/word-counter:latest
         ports:
         - containerPort: 80
 
